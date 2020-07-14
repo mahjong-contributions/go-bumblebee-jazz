@@ -1,0 +1,150 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2
+jobs:
+  build-was:
+    docker:
+      # specify the version
+      - image: circleci/golang:1.14.1
+
+    working_directory: /go/src/github.com/cc4i/go-bumblebee
+    steps:
+      - checkout
+
+      # specify any bash command here prefixed with `run: `
+      - run: 
+          name: building & test
+          command: |
+            which go
+            echo $PATH
+            cd /go/src/github.com/cc4i/go-bumblebee/src/was
+            make test
+
+  build-was-image:
+    machine: true
+    steps:
+      - checkout
+
+      # specify any bash command here prefixed with `run: `
+      - run: 
+          name: building image & push
+          command: |
+            cd /home/circleci/project/src/was
+            echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+            make docker-build
+            make docker-push
+
+  build-air:
+    docker:
+      # specify the version
+      - image: circleci/golang:1.14.1
+
+    working_directory: /go/src/github.com/cc4i/go-bumblebee
+    steps:
+      - checkout
+
+      # specify any bash command here prefixed with `run: `
+      - run: 
+          name: building & test
+          command: |
+            which go
+            echo $PATH
+            cd /go/src/github.com/cc4i/go-bumblebee/src/air
+            make test
+
+  build-air-image:
+    machine: true
+    steps:
+      - checkout
+
+      # specify any bash command here prefixed with `run: `
+      - run: 
+          name: building image & push
+          command: |
+            cd /home/circleci/project/src/air
+            echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+            make docker-build
+            make docker-push
+
+  build-gql:
+    docker:
+      # specify the version
+      - image: circleci/golang:1.14.1
+
+    working_directory: /go/src/github.com/cc4i/go-bumblebee
+    steps:
+      - checkout
+
+      # specify any bash command here prefixed with `run: `
+      - run: 
+          name: building & test
+          command: |
+            which go
+            echo $PATH
+            cd /go/src/github.com/cc4i/go-bumblebee/src/gql
+            make test
+
+  build-gql-image:
+    machine: true
+    steps:
+      - checkout
+
+      # specify any bash command here prefixed with `run: `
+      - run: 
+          name: building image & push
+          command: |
+            cd /home/circleci/project/src/gql
+            echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+            make docker-build
+            make docker-push
+
+  build-locust-image:
+    machine: true
+    steps:
+      - checkout
+
+      # specify any bash command here prefixed with `run: `
+      - run: 
+          name: building image & push
+          command: |
+            cd /home/circleci/project/src/locust
+            echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+            make docker-build
+            make docker-push
+
+  build-front-image:
+    machine: true
+    steps:
+      - checkout
+
+      # specify any bash command here prefixed with `run: `
+      - run: 
+          name: building image & push
+          command: |
+            cd /home/circleci/project/src/front
+            echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+            make docker-build
+            make docker-push
+
+workflows:
+  version: 2
+  build-workflow:
+    jobs:
+      - build-was
+      - build-was-image:
+          requires:
+            - build-was
+
+      - build-air
+      - build-air-image:
+          requires:
+            - build-air
+
+      - build-gql
+      - build-gql-image:
+          requires:
+            - build-gql
+
+      - build-locust-image
+      - build-front-image
