@@ -1,4 +1,4 @@
-FROM locustio/locust:1.0.2
+FROM locustio/locust:1.1.1
 
 WORKDIR /workspace
 COPY ./locustfile.py /workspace/locustfile.py

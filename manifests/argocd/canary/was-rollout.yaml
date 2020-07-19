@@ -63,7 +63,12 @@ spec:
               - primary
       steps:
         - setWeight: 5
-        - pause: {}        
+        - pause: {duration: 20}      
+        - setWeight: 20
+        - pause: {duration: 20}
+        - setWeight: 40
+        - pause: {}
+
   revisionHistoryLimit: 2
 ---
 apiVersion: v1

@@ -5,7 +5,8 @@ Air service is backend for Gate service to retrieve air quality data, which will
 ## Features
 
 - /ping
-- /air/city/:city
+- /air/v1/city/:city
+- /air/v2/city/:city
 
 ## Environments
 
@@ -20,9 +21,9 @@ Air service is backend for Gate service to retrieve air quality data, which will
     MYSQL_SERVER_ADDRESS=127.0.0.1:6379
     MYSQL_SERVER_PASSWORD=
     
-    AIR_VERSION=v0.1.0
+    AIR_VERSION=v1.0.4
+    AIR_VERSION=v2.0.4
     
-    OVERRIDE_VERSION=v1 # for testing purpose in k8s
 
 ## Redis
 

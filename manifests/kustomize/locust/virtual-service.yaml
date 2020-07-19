@@ -1,0 +1,36 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: locust
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - locust-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/locust"  
+    rewrite:
+      uri: "/"
+    route:
+      - destination:
+          host: locust
+          port:
+            number: 8089
+  - match:
+    - uri:
+        prefix: "/static"  
+    - uri:
+        prefix: "/swarm"  
+    - uri:
+        prefix: "/stop"  
+    - uri:
+        prefix: "/stats"  
+    - uri:
+        prefix: "/exceptions"  
+    route:
+      - destination:
+          host: locust
+          port:
+            number: 8089

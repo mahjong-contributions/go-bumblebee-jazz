@@ -2,10 +2,10 @@ package graph
 
 import (
 	"context"
-	"github.com/gin-gonic/gin"
 	"gql/graph/generated"
 	"net/http"
-	"os"
+
+	"github.com/gin-gonic/gin"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -21,10 +21,7 @@ import (
 var prefix = "/gql"
 
 func headers(c *gin.Context) {
-	ver := os.Getenv("OVERRIDE_VERSION")
-	if ver == "" { ver="v1" }
-	c.Header("gql_server","air")
-	c.Header("gql_version", ver)
+	c.Header("gql_server", "gql")
 }
 
 func Router(ctx context.Context) *gin.Engine {

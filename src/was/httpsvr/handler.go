@@ -2,19 +2,17 @@ package httpsvr
 
 import (
 	"context"
-	"github.com/gin-gonic/gin"
-	opentracing "github.com/opentracing/opentracing-go"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"os"
+
+	"github.com/gin-gonic/gin"
+	opentracing "github.com/opentracing/opentracing-go"
 )
 
 func headers(c *gin.Context) {
-	ver := os.Getenv("OVERRIDE_VERSION")
-	if ver == "" { ver="v1" }
-	c.Header("was_server","was")
-	c.Header("was_version", ver)
+	c.Header("was_server", "was")
 }
 
 func Ping(ctx context.Context, c *gin.Context) {
