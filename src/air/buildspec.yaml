@@ -69,9 +69,9 @@ phases:
         - git config --global user.email "robot@codebuild.aws"
         - git config --global user.name "robot"
 
-        - cp -r $CODEBUILD_SRC_DIR/kustomize/$APP_NAME/* $CODEBUILD_SRC_DIR/workspace/$APP_CONF_REPO/kustomize/$APP_NAME/.
-        - cp -r $CODEBUILD_SRC_DIR/kustomize/staging/$APP_NAME/* $CODEBUILD_SRC_DIR/workspace/$APP_CONF_REPO/kustomize/staging/$APP_NAME/.
-        - cp -r $CODEBUILD_SRC_DIR/kustomize/production/$APP_NAME/* $CODEBUILD_SRC_DIR/workspace/$APP_CONF_REPO/kustomize/production/$APP_NAME/.
+        - cp -r $CODEBUILD_SRC_DIR/manifests/kustomize/$APP_NAME/* $CODEBUILD_SRC_DIR/workspace/$APP_CONF_REPO/kustomize/$APP_NAME/.
+        - cp -r $CODEBUILD_SRC_DIR/manifests/kustomize/staging/$APP_NAME/* $CODEBUILD_SRC_DIR/workspace/$APP_CONF_REPO/kustomize/staging/$APP_NAME/.
+        - cp -r $CODEBUILD_SRC_DIR/manifests/kustomize/production/$APP_NAME/* $CODEBUILD_SRC_DIR/workspace/$APP_CONF_REPO/kustomize/production/$APP_NAME/.
 
         - cd $CODEBUILD_SRC_DIR/workspace/$APP_CONF_REPO/kustomize/staging/$APP_NAME
         - kustomize edit set image herochinese/go-bumblebee-$APP_NAME=$REPOSITORY_URI:$IMAGE_TAG
