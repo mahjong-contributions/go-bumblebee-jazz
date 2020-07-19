@@ -39,6 +39,8 @@ spec:
                 key: ipstackToken
           - name: REDIS_SERVER_ADDRESS
             value: redis-cart:6379
+          - name: AIR_VERSION
+            value: v1.0.4            
         ports:
           - name: http
             containerPort: 9011
