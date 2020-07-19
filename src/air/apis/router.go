@@ -76,52 +76,7 @@ func routeV1(ctx context.Context, r *gin.Engine) {
 
 	// Get AQIServer standard: Air Quality Index scale as defined by the US-EPA 2016 standard
 	r.GET(prefixV1+"/aqi", func(c *gin.Context) {
-		c.String(http.StatusOK, `
-			{ 
-				"version": "v1",
-				{
-					"Standard": "Air Quality Index scale as defined by the US-EPA 2016 standard.",
-					"Definitions": [
-						{
-							"AQIServer": "0-50",
-							"Level": "Good",
-							"Implication": "Air quality is considered satisfactory, and air pollution poses little or no risk",
-							"Caution": "None"
-						},
-						{
-							"AQIServer": "51 -100",
-							"Level": "Moderate",
-							"Implication": "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.",
-							"Caution": "Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion."
-						},
-						{
-							"AQIServer": "101-150",
-							"Level": "Unhealthy for Sensitive Groups",
-							"Implication": "Members of sensitive groups may experience health effects. The general public is not likely to be affected.",
-							"Caution": "Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion."
-						},
-						{
-							"AQIServer": "151-200",
-							"Level": "Unhealthy",
-							"Implication": "Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects",
-							"Caution": "Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion"
-						},
-						{
-							"AQIServer": "201-300",
-							"Level": "Very Unhealthy",
-							"Implication": "Health warnings of emergency conditions. The entire population is more likely to be affected.",
-							"Caution": "Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion."
-						},
-						{
-							"AQIServer": "300+",
-							"Level": "Hazardous",
-							"Implication": "Health alert: everyone may experience more serious health effects",
-							"Caution": "Everyone should avoid all outdoor exertion"
-						}
-					]
-				}
-			}
-		`)
+		c.String(http.StatusOK, v1.AQIStandard())
 	})
 
 	// Version from ENV for test purpose
@@ -156,52 +111,7 @@ func routeV2(ctx context.Context, r *gin.Engine) {
 	})
 
 	r.GET(prefixV2+"/aqi", func(c *gin.Context) {
-		c.String(http.StatusOK, `
-			{ 
-				"version": "v2",
-				{
-					"Standard": "Air Quality Index scale as defined by the US-EPA 2016 standard.DEMO HAHA!!!",
-					"Definitions": [
-						{
-							"AQIServer": "0-50",
-							"Level": "Good",
-							"Implication": "Air quality is considered satisfactory, and air pollution poses little or no risk",
-							"Caution": "None"
-						},
-						{
-							"AQIServer": "51 -100",
-							"Level": "Moderate",
-							"Implication": "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.",
-							"Caution": "Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion."
-						},
-						{
-							"AQIServer": "101-150",
-							"Level": "Unhealthy for Sensitive Groups",
-							"Implication": "Members of sensitive groups may experience health effects. The general public is not likely to be affected.",
-							"Caution": "Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion."
-						},
-						{
-							"AQIServer": "151-200",
-							"Level": "Unhealthy",
-							"Implication": "Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects",
-							"Caution": "Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion"
-						},
-						{
-							"AQIServer": "201-300",
-							"Level": "Very Unhealthy",
-							"Implication": "Health warnings of emergency conditions. The entire population is more likely to be affected.",
-							"Caution": "Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion."
-						},
-						{
-							"AQIServer": "300+",
-							"Level": "Hazardous",
-							"Implication": "Health alert: everyone may experience more serious health effects",
-							"Caution": "Everyone should avoid all outdoor exertion"
-						}
-					]
-				}
-			}
-		`)
+		c.String(http.StatusOK, v2.AQIStandard())
 	})
 
 	// Version from ENV for test purpose
