@@ -43,6 +43,8 @@ phases:
             --image-scanning-configuration scanOnPush=true \
             --region $AWS_DEFAULT_REGION || true
 
+        - echo "###4. Retrieve git commit message ..."
+        - export CODEBUILD_GIT_MESSAGE="$(git log -1 --pretty=%B)"
     build:
       commands:
         - echo Build started on `date`
@@ -78,5 +80,5 @@ phases:
         - cd $CODEBUILD_SRC_DIR/workspace/$APP_CONF_REPO/kustomize/production/$APP_NAME
         - kustomize edit set image herochinese/go-bumblebee-$APP_NAME=$REPOSITORY_URI:$IMAGE_TAG
         - git add -A
-        - git commit -m "update kustomization"
+        - git commit -m $CODEBUILD_GIT_MESSAGE
         - git push
