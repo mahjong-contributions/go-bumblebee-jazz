@@ -17,15 +17,16 @@ class QuickstartUser(HttpUser):
                     "london", 
                     "shanghai", 
                     "tianjing", 
-                    "xian", 
                     "dalian", 
+                    "urumqi",
                     "shenzhen",
                     "guangzhou",
                     "wuhan",
                     "xiamen",
+                    "chongqing",
                     "guangyuan"]
         id = random.randint(0, len(cities)-1)
-        self.client.get("/air/v1/city/"+cities[id], name="/air/v1/city"+cities[id])
+        self.client.get("/air/v1/city/"+cities[id], name="/air/v1/city/"+cities[id])
 
     @task(2)
     def task2(self):
