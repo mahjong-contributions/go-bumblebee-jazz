@@ -239,7 +239,7 @@ func AQIStandard() string {
 			{ 
 				"version": "v1",
 				"Description": {
-					"Standard": "Air Quality Index scale as defined by the US-EPA 2016 standard.",
+					"Standard": "Air Quality Index scale as defined by the US-EPA 2016 standard. Not Global Standard!!!",
 					"Definitions": [
 						{
 							"AQIServer": "0-50",
