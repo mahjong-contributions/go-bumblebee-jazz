@@ -61,7 +61,7 @@ func CachingAirQuality(ctx context.Context, city string, quality aqi.AirQuality)
 		return errors.New("redis client was nil")
 	}
 	pipeline := RedisClient.Pipeline()
-	pipeline.Set(ctx, "air_quality_cache-"+city, "expired-600s", 600*time.Second)
+	pipeline.Set(ctx, "air_quality_cache-"+city, "expired-60s", 60*time.Second)
 	pipeline.HSet(ctx, "air_quality_cache", city, buf)
 	_, err := pipeline.Exec(ctx)
 
@@ -111,18 +111,7 @@ func AirOfGeo(ctx context.Context, c *gin.Context) {
 		if air, err := convertAir(buf); err != nil {
 			c.JSON(http.StatusInternalServerError, err)
 		} else {
-			ver := os.Getenv("AIR_VERSION")
-			if ver=="" || !strings.HasPrefix(ver, "v1") {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: "v1",
-					Air:           air,
-				})
-			} else {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: ver,
-					Air:           air,
-				})
-			}
+			newOutput(c, air)
 		}
 	}
 }
@@ -158,23 +147,29 @@ func AirOfCity(ctx context.Context, c *gin.Context) {
 				log.Errorf("Caching air quality data was failed. -> %s, %s\n", air.City, err)
 			}
 			log.Infof("Air Quality of %s was cached.\n ", city)
-			ver := os.Getenv("AIR_VERSION")
-			if ver=="" || !strings.HasPrefix(ver, "v1") {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: "v1",
-					Air:           air,
-				})
-			} else {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: ver,
-					Air:           air,
-				})
-			}
+			newOutput(c, air)
 		}
 
 	} else {
 		log.Infof("Return cached Air Quality of %s.\n ", city)
-		c.JSON(http.StatusOK, air)
+		newOutput(c, air)
+	}
+
+}
+
+// newOutput return response with version
+func newOutput(c *gin.Context, air aqi.AirQuality) {
+	ver := os.Getenv("AIR_VERSION")
+	if ver=="" || !strings.HasPrefix(ver, "v1") {
+		c.JSON(http.StatusOK, ResponseAirQuality{
+			ServerVersion: "v1",
+			Air:           air,
+		})
+	} else {
+		c.JSON(http.StatusOK, ResponseAirQuality{
+			ServerVersion: ver,
+			Air:           air,
+		})
 	}
 
 }
@@ -216,18 +211,7 @@ func AirOfIP(ctx context.Context, c *gin.Context) {
 		if air, err := byCity(sctx, city); err != nil {
 			c.JSON(http.StatusInternalServerError, err)
 		} else {
-			ver := os.Getenv("AIR_VERSION")
-			if ver=="" || !strings.HasPrefix(ver, "v1") {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: "v1",
-					Air:           air,
-				})
-			} else {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: ver,
-					Air:           air,
-				})
-			}
+			newOutput(c, air)
 		}
 
 	}

@@ -111,18 +111,7 @@ func AirOfGeo(ctx context.Context, c *gin.Context) {
 		if air, err := convertAir(buf); err != nil {
 			c.JSON(http.StatusInternalServerError, err)
 		} else {
-			ver := os.Getenv("AIR_VERSION")
-			if ver=="" || !strings.HasPrefix(ver, "v2") {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: "v2",
-					Air:           air,
-				})
-			} else {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: ver,
-					Air:           air,
-				})
-			}
+			newOutput(c, air)
 		}
 	}
 }
@@ -158,24 +147,13 @@ func AirOfCity(ctx context.Context, c *gin.Context) {
 				log.Errorf("Caching air quality data was failed. -> %s, %s\n", air.City, err)
 			}
 			log.Infof("Air Quality of %s was cached.\n ", city)
-			ver := os.Getenv("AIR_VERSION")
-			if ver=="" || !strings.HasPrefix(ver, "v2") {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: "v2",
-					Air:           air,
-				})
-			} else {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: ver,
-					Air:           air,
-				})
-			}
+			newOutput(c, air)
 
 		}
 
 	} else {
 		log.Infof("Return cached Air Quality of %s.\n ", city)
-		c.JSON(http.StatusOK, air)
+		newOutput(c, air)
 	}
 
 }
@@ -217,21 +195,27 @@ func AirOfIP(ctx context.Context, c *gin.Context) {
 		if air, err := byCity(sctx, city); err != nil {
 			c.JSON(http.StatusInternalServerError, err)
 		} else {
-			ver := os.Getenv("AIR_VERSION")
-			if ver=="" || !strings.HasPrefix(ver, "v2") {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: "v2",
-					Air:           air,
-				})
-			} else {
-				c.JSON(http.StatusOK, ResponseAirQuality{
-					ServerVersion: ver,
-					Air:           air,
-				})
-			}
+			newOutput(c, air)
 		}
 
 	}
+}
+
+// newOutput return response with version
+func newOutput(c *gin.Context, air aqi.AirQuality) {
+	ver := os.Getenv("AIR_VERSION")
+	if ver=="" || !strings.HasPrefix(ver, "v2") {
+		c.JSON(http.StatusOK, ResponseAirQuality{
+			ServerVersion: "v2",
+			Air:           air,
+		})
+	} else {
+		c.JSON(http.StatusOK, ResponseAirQuality{
+			ServerVersion: ver,
+			Air:           air,
+		})
+	}
+
 }
 
 func AQIStandard() string {
