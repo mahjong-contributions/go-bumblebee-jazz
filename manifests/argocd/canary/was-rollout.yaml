@@ -13,10 +13,9 @@ spec:
         app: was 
     spec:
       terminationGracePeriodSeconds: 5
-      serviceAccountName: was-service-account
       containers:
       - name: was-go-bumblebee
-        image:  herochinese/go-bumblebee-was:new-combo-jazz
+        image:  herochinese/go-bumblebee-was:master
         livenessProbe:
           failureThreshold: 5
           httpGet:

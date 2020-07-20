@@ -15,7 +15,8 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: air-go-bumblebee
-        image:  530820415924.dkr.ecr.us-west-2.amazonaws.com/herochinese/go-bumblebee-air:new-combo-jazz
+        image:  herochinese/go-bumblebee-air:master
+        imagePullPolicy: Always
         env:
           - name: AQI_SERVER_URL
             valueFrom: 
@@ -40,7 +41,7 @@ spec:
           - name: REDIS_SERVER_ADDRESS
             value: redis-cart:6379
           - name: AIR_VERSION
-            value: v1.0.4-canary
+            value: v1.0.6-canary
         ports:
           - name: http
             containerPort: 9011
@@ -55,9 +56,9 @@ spec:
     canary:
       steps:
       - setWeight: 20
-      - pause: {}
-      - setWeight: 40
       - pause: {duration: 20}
+      - setWeight: 40
+      - pause: {}
       - setWeight: 60
       - pause: {duration: 20}
       - setWeight: 80
