@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: was-fault-injection
+spec:
+  hosts:
+  - was.fault.injection
+  gateways:
+  - was-http-gateway-fault
+  http:
+  - match:
+    - headers:
+        end-user:
+          exact: aws.builder
+    fault:
+      delay:
+        percentage:
+          value: 100.0
+        fixedDelay: 7s
+    route:
+    - destination:
+        host: was-httpx
+        subset: v1
+  - route:
+    - destination:
+        host: was-httpx
+        subset: v2

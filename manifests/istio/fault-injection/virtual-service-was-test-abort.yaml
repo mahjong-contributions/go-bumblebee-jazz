@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: was-abort-injection
+spec:
+  hosts:
+  - was.abort.injection
+  gateways:
+  - was-http-gateway-fault
+  http:
+  - match:
+    - headers:
+        end-user:
+          exact: aws.builder
+    fault:
+      abort:
+        percentage:
+          value: 100.0
+        httpStatus: 500
+    route:
+    - destination:
+        host: was-httpx
+        subset: v1
+  - route:
+    - destination:
+        host: was-httpx
+        subset: v2

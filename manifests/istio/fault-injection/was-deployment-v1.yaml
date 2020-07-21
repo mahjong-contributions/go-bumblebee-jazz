@@ -1,22 +1,23 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout 
+apiVersion: apps/v1
+kind: Deployment 
 metadata:
-  name: was-bulegreen
+  name: was-v1
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: was-bulegreen 
+      app: was 
+      version: v1
   template:
     metadata:
       labels: 
-        app: was-bulegreen 
+        app: was 
+        version: v1
     spec:
       terminationGracePeriodSeconds: 5
-      serviceAccountName: was-service-account
       containers:
       - name: was-go-bumblebee
-        image:  herochinese/go-bumblebee-was:new-combo-jazz
+        image:  herochinese/go-bumblebee-was:master
         livenessProbe:
           failureThreshold: 5
           httpGet:
@@ -51,34 +52,3 @@ spec:
           limits:
             cpu: 200m
             memory: 128Mi
-  strategy:
-    blueGreen:
-      activeService: was-bluegreen-active
-      previewService: was-bluegreen-preview
-      autoPromotionEnabled: false
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: was-bluegreen-active
-spec:
-  selector:
-    app: was-bluegreen
-  ports:
-  - protocol: TCP
-    port: 9010
-    targetPort: 9010
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: was-bluegreen-preview
-spec:
-  selector:
-    app: was-bluegreen
-  ports:
-  - protocol: TCP
-    port: 9010
-    targetPort: 9010       

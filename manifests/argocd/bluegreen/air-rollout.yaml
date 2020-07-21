@@ -1,21 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout 
 metadata:
-  name: air-bluegreen
+  name: air
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: air-bluegreen 
+      app: air
   template:
     metadata:
       labels: 
-        app: air-bluegreen 
+        app: air
     spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: air-go-bumblebee
-        image:  herochinese/go-bumblebee-air:new-combo-jazz
+        image:  herochinese/go-bumblebee-air:master
         env:
           - name: AQI_SERVER_URL
             valueFrom: 
@@ -62,7 +62,7 @@ metadata:
   name: air-bluegreen-active
 spec:
   selector:
-    app: air-bluegreen
+    app: air
   ports:
   - protocol: TCP
     port: 9011
@@ -75,7 +75,7 @@ metadata:
   name: air-bluegreen-preview
 spec:
   selector:
-    app: air-bluegreen
+    app: air
   ports:
   - protocol: TCP
     port: 9011
