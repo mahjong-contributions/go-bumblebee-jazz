@@ -1,5 +1,5 @@
 
-# Go-Bumblebee ![CircleCI](https://circleci.com/gh/mahjong-contributions/go-bumblebee-jazz.svg?style=svg) ![GoReport](https://goreportcard.com/badge/github.com/mahjong-contributions/go-bumblebee-jazz)
+# Bumblebee ![CircleCI](https://circleci.com/gh/mahjong-contributions/go-bumblebee-jazz.svg?style=svg) ![GoReport](https://goreportcard.com/badge/github.com/mahjong-contributions/go-bumblebee-jazz)
 
 <img src="./docs/anything.jpg" alt="bumblebee" width="80">
 
@@ -8,7 +8,7 @@ It's a sample application, called Bumblebee,  to query air quality around world,
 
 
 
-## Bumblebee
+## What's inside
 
 <img src="./docs/what.png" alt="what">
 
