@@ -221,7 +221,7 @@ func AirOfIP(ctx context.Context, c *gin.Context) {
 func AQIStandard() string {
 	return `
 			{ 
-				"version": "v1",
+				"version": "v1.1",
 				"Description": {
 					"Standard": "Air Quality Index scale as defined by the US-EPA 2016 standard. Not Global Standard!!!",
 					"Definitions": [
